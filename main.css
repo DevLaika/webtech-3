@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@1,100&family=Raleway:ital,wght@1,800&family=Trirong:wght@100&display=swap');
+
+.h1 {font-family: 'Raleway', sans-serif;} 
+.h2 {font-family: 'Libre Franklin', sans-serif;}
+.p {font-family: 'Trirong', serif}
+
+.grid-container{
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0.5em;
+	
+}
+
+.grid-container > article{
+	font-family: 'Libre Franklin', sans-serif;
+	border: 0.2em solid #432818;
+	background-color: #23CE6B;
+	border-radius: 25px;
+	text-align: center;
+}
+.grid-item-top {
+  grid-column: 1 / 4;
+  background-color: #FFC43D;
+  font-size: 1.2em;
+}
+.grid-item-about{
+	grid-column: 1 / 4;
+	padding: 0 10em 0 10em;
+	border-radius: 20px; 
+}
+
+.grid-item-photo{
+grid-column: 2 / 2;
+}
+img {  
+	max-width: 100%;  
+	height: auto;
+	border-radius: 20px 20px 0 0;  
+}  
+	
+
+ul.nav {
+  font-family: 'Raleway', sans-serif;
+  background-color: #432818;
+  font-size: 1.7em;
+  text-align: center;
+}
+ul.nav > li {
+  display: inline-block;
+  padding: 10px 20px;
+}
+ul.nav > li:hover {
+  background-color: #99582A;
+}
+ul.nav > li > a {
+  color: white;
+  text-decoration: none;
+}
+
+section{
+	padding: 0 2.5%;
+}

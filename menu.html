@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="index.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript" src="header.js"></script>
+        <script src="cart.js" defer></script>
+        <script src="menu.js" defer></script>
+	    <script type="text/javascript" src="accessibility.js"></script>
+        <title>Menu</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li class="header__logo"><a href="index.html">BURGERBAR</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="jobs.html">Jobs</a></li>
+                </ul>
+                <img id="expander" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg" alt="Expand menu">
+            </nav>
+        </header>
+        <main class="menu__container">
+            <article class="menu__main">
+            </article>
+            <aside class="menu__cart">
+            </aside>
+        </main>
+        <footer>
+            <nav>
+                <ul>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="about.html">About us</a></li>
+					<li>© 2022 BurgerBar</li>
+					<li><label for="elementchange">Choose an element:</label>
+						<select id="elementchange" name="elementchange">
+						</select></li>
+					<li><label for="colorchange">Choose a color:</label>
+						<input type="color" id="colorpicker"></li>
+					<li><label for="sizechange">Select a size:</label>
+						<select id="sizechange" name="sizechange">
+							<option value="0.5rem">small</option>
+							<option value="1rem">normal</option>
+							<option value="1.5rem">big</option>
+						</select></li>
+					<li><button id="textbtn">Change text</button></li>
+				</ul>
+            </nav>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="index.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" src="header.js"></script>
+	<script type="text/javascript" src="accessibility.js"></script>
+	<title>Cart</title>
+</head>
+<body>
+	<header>
+		<nav>
+			<ul>
+				<li class="header__logo"><a href="index.html">BURGERBAR</a></li>
+				<li><a href="menu.html">Menu</a></li>
+				<li><a href="about.html">About</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li><a href="jobs.html">Jobs</a></li>
+				<li><a href="cart.html">Cart</a></li>
+			</ul>
+			<img id="expander" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg" alt="Expand menu">
+		</nav>
+	</header>
+	<main class="cart__container">
+		<form action="/cart" method="post" novalidate>
+			<section class="cart__column cart__column--big">
+			    <table class="cart__table">
+			      <thead>
+			        <th>Product</th>
+			        <th>&nbsp;</th>
+			        <th>Price</th>
+			        <th>Quantity</th>
+			        <th>Total</th>
+			      </thead>
+
+			      <tbody>
+			          <tr class="">
+			            <td data-label="Product" style="max-width: 30%;">
+			            	<a href="">
+			               		<img class="cart__image" src="imgs/8" alt="Hamburger type 1">
+			              	</a>
+			            </td>
+			            <td>
+			              	<a href="">Classic cheeseburger</a>			              
+			              	<a href="" style="text-decoration: underline;">
+			              		<small>Remove</small>
+			              	</a>
+			            </td>
+			            <td data-label="Price">
+			              	<span class="h3">€8.99</span>
+			            </td>
+			            <td data-label="Quantity">
+			              	<input type="number" name="" id="" data-id="" value="1" min="0" class="input--styled input--small">
+			            </td>
+			            <td data-label="Total" class="text-right">
+			              	<span class="h3">€8.99</span>
+			            </td>
+			          </tr>
+			        
+			      </tbody>
+			    </table>
+			</section>
+			<section class="cart__column cart__column--small">
+			    <div>
+			        <label for="cartSpecialInstructions"><b>Special Instructions</b><br/><br/></label>
+			        <textarea name="note" id="cartSpecialInstructions" class="input--styled"></textarea>
+			    </div>  
+		        <div>
+		        	<p>
+		            	<b>Subtotal</b>
+		          		<span>€8.99</span>
+		        	</p>
+		        	<button type="submit" name="update" class="button button--red cart__button">Update Cart</button>
+		        	<button type="submit" name="checkout" class="button button--green cart__button">Check Out</button>
+		      	</div>
+			</section>
+		</form>
+	</main>
+	<footer>
+		<nav>
+			<ul>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="about.html">About us</a></li>
+					<li>© 2022 BurgerBar</li>
+					<li><label for="elementchange">Choose an element:</label>
+						<select id="elementchange" name="elementchange">
+							<option value="body">Body</option>
+							<option value="header">Header</option>
+							<option value="footer">Footer</option>
+							<option value="Aside">Aside</option>
+							<option value="Article">Articles</option>
+							<option value="Section">Sections</option>
+						</select></li>
+					<li><label for="colorchange">Choose a color:</label>
+						<input type="color" id="colorpicker"></li>
+					<li><label for="sizechange">Select a size:</label>
+						<select id="sizechange" name="sizechange">
+							<option value="0.5rem">small</option>
+							<option value="1rem">normal</option>
+							<option value="1.5rem">big</option>
+						</select></li>
+					<li><button id="textbtn">Change text</button></li>
+				</ul>
+		</nav>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="index.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script type="text/javascript" src="header.js"></script>
+		<script type="text/javascript" src="accessibility.js"></script>
+		<title>Jobs</title>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<ul>
+					<li class="header__logo"><a href="index.html">BURGERBAR</a></li>
+					<li><a href="menu.html">Menu</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="jobs.html">Jobs</a></li>
+				</ul>
+				<img id="expander" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg" alt="Expand menu">
+			</nav>
+		</header>
+		<main>
+			<h1 class="jobs__title">Working at Burgerbar</h1>
+			<article class="grid__container"> 
+				<section class="grid__item grid__item--red">
+					<img class="grid__image" src="src/images/Cashier.jpg" alt="Cashier">
+					<h1 class="grid__title">Cashier</h1>
+					<p class="grid__paragraph">As a Cashier you are the face of the company. You take the order of the customers with a smile. You are in responsible for the processing and receiving of payments.</p>
+				</section>
+				<section class="grid__item grid__item--green">
+					<img class="grid__image" src="src/images/Burger.jpg" alt="Image of someone flipping burgers.">
+					<h1 class="grid__title">Burger Flipper</h1>
+					<p class="grid__paragraph">As a Burger Flipper you are part of our cooking team. Your main task is to grill and flip the burgers. But ofcourse you do plenty of other stuff as well. For example frying our delicious french fries.</p>
+				</section>
+				<section class="grid__item grid__item--red">
+					<img class="grid__image" src="src/images/Cleaner.jpg" alt="Image of our wonderful cleaning staff.">
+					<h1 class="grid__title">Cleaner</h1>
+					<p class="grid__paragraph">Our burgers have to taste delicious every day. Cleaning our kitchen is very important to maintain the good taste of our product. As a Cleaner you make sure that and the end of the day everything is as new!</p>
+				</section>
+				<section class="grid__item grid__item--green">
+					<img class="grid__image" src="src/images/Office.jpg" alt="Image of one of our office workers">
+					<h1 class="grid__title">Office Employeer</h1>
+					<p class="grid__paragraph">Besides jobs at our Burgerbars, there are plenty of office jobs in our Headquater located in Amsterdam. Come take a look behind the screen.</p>
+				</section>
+			</article>
+		</main>
+		<footer>
+			<nav>
+				<ul>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="about.html">About us</a></li>
+					<li>© 2022 BurgerBar</li>
+					<li><label for="elementchange">Choose an element:</label>
+						<select id="elementchange" name="elementchange">
+						</select></li>
+					<li><label for="colorchange">Choose a color:</label>
+						<input type="color" id="colorpicker"></li>
+					<li><label for="sizechange">Select a size:</label>
+						<select id="sizechange" name="sizechange">
+							<option value="0.5rem">small</option>
+							<option value="1rem">normal</option>
+							<option value="1.5rem">big</option>
+						</select></li>
+					<li><button id="textbtn">Change text</button></li>
+				</ul>
+			</nav>
+		</footer>
+	</body>
+</html>

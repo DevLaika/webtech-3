@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="index.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" src="header.js"></script>
+	<script type="text/javascript" src="accessibility.js"></script>
+	<title>Home</title>
+</head>
+<body>
+	<header>
+		<nav>
+			<ul>
+				<li class="header__logo"><a href="index.html">BURGERBAR</a></li>
+				<li><a href="menu.html">Menu</a></li>
+				<li><a href="about.html">About</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li><a href="jobs.html">Jobs</a></li>
+			</ul>
+			<img id="expander" src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg" alt="Expand menu">
+		</nav>
+	</header>
+	<main class="grid__container">
+		<section class="grid__item grid__item--red">
+			<a href="about.html">
+				<img class="grid__image" src="https://www.burgerbar.nl/wp-content/uploads/BurgerBar_warmoesstraat_02.jpg" alt="The inside of our restaurant">
+				<span class="grid__title">About us</span>
+			</a>
+		</section>
+		<section class="grid__item grid__item--green">
+			<a href="menu.html">
+				<img class="grid__image" src="https://www.foodiesmagazine.nl/app/uploads/2019/07/platte-burgers-met-jalapeno-kaassaus.png" alt="Burgers on a tray">
+				<span class="grid__title">Our menu</span>
+			</a>
+		</section>
+		<section class="grid__item grid__item--red">
+			<a href="jobs.html">
+				<img class="grid__image" src="https://assets.entrepreneur.com/content/3x2/2000/20160915213625-GettyImages-506827008.jpeg" alt="Restaurant employees">
+				<span class="grid__title">Join our team</span>
+			</a>
+		</section>
+	</main>
+	<footer>
+		<nav>
+			<ul>
+					<li><a href="contact.html">Contact</a></li>
+					<li><a href="about.html">About us</a></li>
+					<li>© 2022 BurgerBar</li>
+					<li><label for="elementchange">Choose an element:</label>
+						<select id="elementchange" name="elementchange">
+						</select></li>
+					<li><label for="colorchange">Choose a color:</label>
+						<input type="color" id="colorpicker"></li>
+					<li><label for="sizechange">Select a size:</label>
+						<select id="sizechange" name="sizechange">
+							<option value="0.5rem">small</option>
+							<option value="1rem">normal</option>
+							<option value="1.5rem">big</option>
+						</select></li>
+					<li><button id="textbtn">Change text</button></li>
+				</ul>
+		</nav>
+	</footer>
+</body>
+</html>
