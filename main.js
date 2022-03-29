@@ -1,18 +1,18 @@
 const express = require('express');
 const app = express()
-const port = 8022;
 const path = require('path');
+const port = 8022;
 
+// Import api functionality from ./routes/api_router
 const api_router = require('./routes/api_router')
 
+// Use the static html and css pages located in ./public
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Use the api functionality
 app.use('/api', api_router);
 
-
-app.get('/', function (req, res) {
-  res.sendFile("Hello world!");
-});
-
+// Start the app, listens for requests on port 8022
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 })

@@ -1,8 +1,10 @@
-const file = "database.db";
-
 const sqlite3 = require("sqlite3").verbose();
+
+// Create database file
+const file = "database.db";
 const db = new sqlite3.Database(file);
 
+// Create tables (users, dishes, orders) in database
 db.serialize(() => {
     db
     .run(`--sql
@@ -29,4 +31,5 @@ db.serialize(() => {
     `);
 });
 
+// Export the database object for use elsewhere
 module.exports = db;
