@@ -19,6 +19,7 @@
   "homepage": "https://github.com/DevLaika/webtech-3#readme",
   "dependencies": {
     "express": "^4.17.3",
+    "simple-node-logger": "^21.8.12",
     "sqlite3": "^5.0.2"
   }
 }
