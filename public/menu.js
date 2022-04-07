@@ -126,11 +126,33 @@ class FoodMenuItem {
         button.appendChild(document.createTextNode("Order"));
 
         button.addEventListener("click", () => {
+            const dialog = document.getElementsByClassName("dialog")[0]
+            const dialogContent = document.getElementsByClassName("dialog__content")[0];
+            const closeButton = document.getElementsByClassName("dialog__close")[0];
+            closeButton.addEventListener("click", () => {
+                dialog.close();
+            })
+            const h = document.createElement("h1");
+            h.appendChild(document.createTextNode(this.item.name))
+            dialogContent.replaceChildren(h)
+            const s = document.createElement("section");
+            s.append(img.cloneNode(), document.createElement("p").appendChild(document.createTextNode(this.item.description)))
 
-            cart.addItem(new FoodCartItem(this.item));
-            cart.displayCart();
+            dialogContent.appendChild(s);
+            
+            const addToCartButton = document.createElement("button", { classList: ["dialog__button"] })
+            addToCartButton.append("Add to cart")
+            addToCartButton.addEventListener("click", () => {
+                cart.addItem(new FoodCartItem(this.item));
+                cart.displayCart();
+    
+                this.amount++;
+                dialog.close()
+            })
 
-            this.amount++;
+            dialogContent.appendChild(addToCartButton);
+            dialog.showModal()
+
             // this.updateAmountIcon();
 
         });

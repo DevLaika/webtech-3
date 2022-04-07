@@ -19,10 +19,10 @@ db.serialize(() => {
     .run(`--sql
         CREATE TABLE if NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT NOT null,
-            name TEXT NOT null,
-            password TEXT NOT null,
-            address_id INTEGER,
+            email TEXT NOT NULL,
+            name TEXT NOT NULL,
+            password TEXT NOT NULL,
+            address_id INTEGER DEFAULT NULL,
             FOREIGN KEY (address_id) REFERENCES addresses(id)
     );`)
     .run(`--sql
@@ -31,6 +31,7 @@ db.serialize(() => {
             name TEXT NOT null,
             price INTEGER NOT null,
             img TEXT,
+            description TEXT,
             category TEXT
         );`)
     .run(`--sql

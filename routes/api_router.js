@@ -9,25 +9,47 @@ router.get('/auth', (req, res) => {
 
 // Get dishes
 router.get('/dishes', (req, res) => {
+    const auth = true; // Todo: how to check authentication?
+
+    if (auth) {
+        // load all (lazy?)
+    } else {
+        // load 10 (less for lazy loading? should be max 10)
+    }
+
+});
+
+// Get dishes
+router.post('/dishes', (req, res) => {
+    db.run(`--sql
+        INSERT INTO dishes (name, price, img, description, catagory) VALUES (?, ?, ?, ?, ?);
+    `, [req.body.name, req.body.price, req.body.img, req.body.description, req.body.catagory], (err) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        } else {
+            return res.sendStatus(200);
+        }
+    });
+});
+
+// Get dishes
+router.put('/dishes:dish_id', (req, res) => {
     // Load 10 without auth, all with
 });
 
+
 // Register a user
 router.post('/user', (req, res) => {
-    console.log(req.body);
-
-    db.serialize(() => {
-        // TODO: This sql doesnt work, "column index out of range", what does this mean?
-        db.run(`--sql
-            INSERT INTO users VALUES (NULL, $email, $name, $password, NULL);
-        `, req.body, (err) => {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(500);
-            } else {
-                return res.sendStatus(200);
-            }
-        });
+    db.run(`--sql
+        INSERT INTO users (email, name, password) VALUES (?, ?, ?);
+    `, [req.body.email, req.body.name, req.body.password], (err) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        } else {
+            return res.sendStatus(200);
+        }
     });
 });
 
