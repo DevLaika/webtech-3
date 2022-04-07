@@ -72,6 +72,15 @@ db.serialize(() => {
             FOREIGN KEY (dish_id) REFERENCES dishes(id)
         );
     `)
+    .run (`--sql
+        CREATE TABLE IF NOT EXISTS reviews (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            dish_id INTEGER NOT null,
+            rating INTEGER CHECK (rating BETWEEN 1 AND 5),
+            review TEXT,
+            FOREIGN KEY (dish_id) REFERENCES dishes(id)
+        )
+    `)
 });
 
 // Export the database object for use elsewhere
