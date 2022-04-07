@@ -9,6 +9,7 @@ const api_router = require('./routes/api_router')
 // Use the static html and css pages located in ./public
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.json())
 // Use the api functionality
 app.use('/api', api_router);
 

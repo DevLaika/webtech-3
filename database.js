@@ -8,59 +8,67 @@ const db = new sqlite3.Database(file);
 db.serialize(() => {
     db
     .run(`--sql
-        CREATE TABLE if not exists users (
-            userid int primary key not null,
-            email text not null,
-            name text not null,
-            password text not null,
-            address_id int FOREIGN KEY REFERENCES addresses(id)
+        CREATE TABLE if NOT EXISTS addresses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            country TEXT NOT null,
+            city TEXT NOT null,
+            postalcode TEXT NOT null,
+            street TEXT NOT null,
+            number TEXT NOT null
     );`)
     .run(`--sql
-        CREATE TABLE if not exists addresses (
-            id int primary key not null,
-            country text not null,
-            city text not null,
-            postalcode text not null,
-            street text not null,
-            number text not null
+        CREATE TABLE if NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT NOT null,
+            name TEXT NOT null,
+            password TEXT NOT null,
+            address_id INTEGER,
+            FOREIGN KEY (address_id) REFERENCES addresses(id)
     );`)
     .run(`--sql
-        CREATE TABLE if not exists dishes (
-            id int primary key not null,
-            name text not null,
-            price int not null,
-            img text,
-            category text
+        CREATE TABLE if NOT EXISTS dishes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT null,
+            price INTEGER NOT null,
+            img TEXT,
+            category TEXT
         );`)
     .run(`--sql
-        CREATE TABLE if not exists orders (
-            id int primary key not null,
-            userid int not null FOREIGN key REFERENCES users(id),
-            total int not null,
-            datetime int not null,
-            addressId int not null foreign key refrences addresses(id)
+        CREATE TABLE if NOT EXISTS orders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT null,
+            total INTEGER NOT null,
+            datetime INTEGER NOT null,
+            address_id INTEGER NOT null,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (address_id) REFERENCES addresses(id)
         );
     `)
     .run(`--sql
-        create table if not exists carts (
-            id int primary key not null,
-            userid int not null FOREIGN key REFERENCES users(id)
+        create table if NOT EXISTS carts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT null,
+            FOREIGN KEY (user_id) REFERENCES users(id)
         );`
     )
     .run(`--sql
-        create table if not exists orderdishes (
-            id int primary key not null,
-            order_id int not null FOREIGN key REFERENCES orders(id),
-            dish_id int not null FOREIGN key REFERENCES dishes(id),
-            quantity int not null
+        create table if NOT EXISTS orderdishes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            quantity INTEGER NOT null,
+            order_id INTEGER NOT null,
+            dish_id INTEGER NOT null,
+            FOREIGN KEY (order_id) REFERENCES orders(id),
+            FOREIGN KEY (dish_id) REFERENCES dishes(id)
         );
     `)
     .run(`--sql
-        create table if not exists cartdishes (
-            id int primary key not null,
-            cart_id int not null FOREIGN key REFERENCES carts(id),
-            dish_id int not null FOREIGN key REFERENCES dishes(id),
-            quantity int not null
+        create table if NOT EXISTS cartdishes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            quantity INTEGER NOT null,
+            cart_id INTEGER NOT null,
+            dish_id INTEGER NOT null,
+            FOREIGN KEY (cart_id) REFERENCES carts(id),
+            FOREIGN KEY (dish_id) REFERENCES dishes(id)
         );
     `)
 });
