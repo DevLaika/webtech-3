@@ -22,8 +22,8 @@ router.get('/dishes', (req, res) => {
 // Get dishes
 router.post('/dishes', (req, res) => {
     db.run(`--sql
-        INSERT INTO dishes (name, price, img, description, catagory) VALUES (?, ?, ?, ?, ?);
-    `, [req.body.name, req.body.price, req.body.img, req.body.description, req.body.catagory], (err) => {
+        INSERT INTO dishes (name, price, img, description, category) VALUES (?, ?, ?, ?, ?);
+    `, [req.body.name, req.body.price, req.body.img, req.body.description, req.body.category], (err) => {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
