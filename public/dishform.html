@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <form id="dishform">
+        <input type="text" placeholder="name" name="name" id="" class="dishform_name">
+        <input type="number" placeholder="price" name="price" id="" class="dishform__price">
+        <input type="text" placeholder="img" name="img" id="" class="disform__image">
+        <input type="text" placeholder="description" name="description" id="" class="disform__description">
+        <input type="text" placeholder="category" name="category" id="" class="dishform__category">
+        <input type="submit" value="Submit" class="dishform__submit">
+    </form>
+    <script>
+        const api = axios.create({
+            baseURL: 'localhost:8022/api/',
+        });
+        // Currently working on page to add dishes, does not work, learn axios!!!!
+        dishform.addEventListener("submit", (event) => {
+            event.preventDefault();
+            let formData = new FormData(dishform);
+            let dishData = Object.fromEntries(formData.entries());
+            console.log(dishData);
+
+            api.post('/dishes', dishData).then((res) => {
+                console.log(res);
+            }).catch((err) => {
+                console.log(err);
+            });
+        })
+    </script>
+</body>
+
+</html>
