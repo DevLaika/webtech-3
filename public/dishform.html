@@ -11,25 +11,48 @@
 
 <body>
     <form id="dishform">
-        <input type="text" placeholder="name" name="name" id="" class="dishform_name">
-        <input type="number" placeholder="price" name="price" id="" class="dishform__price">
-        <input type="text" placeholder="img" name="img" id="" class="disform__image">
-        <input type="text" placeholder="description" name="description" id="" class="disform__description">
-        <input type="text" placeholder="category" name="category" id="" class="dishform__category">
-        <input type="submit" value="Submit" class="dishform__submit">
+        <fieldset>
+            <legend>Add dish</legend>
+            <input type="text" placeholder="name" name="name" id="" class="dishform__input--text">
+            <input type="number" placeholder="price" name="price" id="" class="dishform__input--number">
+            <input type="text" placeholder="img" name="img" id="" class="disform__input--text">
+            <input type="text" placeholder="description" name="description" id="" class="disform__--text">
+            <input type="text" placeholder="category" name="category" id="" class="dishform__--text">
+            <input type="submit" value="Submit" class="dishform__button--submit">
+        </fieldset>
+    </form>
+    <form id="userform">
+        <fieldset>
+            <legend>Add user</legend>
+            <input type="text" placeholder="name" name="name" class="userform__input--text">
+            <input type="text" placeholder="email" name="email" class="userform__input--text">
+            <input type="password" placeholder="password" name="password" class="userform__input--password">
+            <input type="submit" class="userform__button--submit" value="Submit">
+        </fieldset>
     </form>
     <script>
         const api = axios.create({
-            baseURL: 'localhost:8022/api/',
+            baseURL: 'http://localhost:8022/api/',
         });
-        // Currently working on page to add dishes, does not work, learn axios!!!!
+
         dishform.addEventListener("submit", (event) => {
             event.preventDefault();
             let formData = new FormData(dishform);
             let dishData = Object.fromEntries(formData.entries());
-            console.log(dishData);
 
-            api.post('/dishes', dishData).then((res) => {
+            api.post('/dish', dishData).then((res) => {
+                console.log(res);
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+
+        userform.addEventListener("submit", (event) => {
+            event.preventDefault();
+            let formData = new FormData(userform);
+            let userData = Object.fromEntries(formData.entries());
+
+            api.post('/user', userData).then((res) => {
                 console.log(res);
             }).catch((err) => {
                 console.log(err);

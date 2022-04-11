@@ -135,22 +135,45 @@ class FoodMenuItem {
             const h = document.createElement("h1");
             h.appendChild(document.createTextNode(this.item.name))
             dialogContent.replaceChildren(h)
-            const s = document.createElement("section");
+            const s = document.createElement("section")
+            s.classList.add("dialog__section", "dialog__section--columns");
             s.append(img.cloneNode(), document.createElement("p").appendChild(document.createTextNode(this.item.description)))
 
             dialogContent.appendChild(s);
+
             
-            const addToCartButton = document.createElement("button", { classList: ["dialog__button"] })
-            addToCartButton.append("Add to cart")
+            const inputSection = document.createElement("section");
+            inputSection.classList.add("dialog__section--input")
+
+            const addToCartButton = document.createElement("input")
+            addToCartButton.type = "submit"
+            addToCartButton.value = "Add to cart"
+            
+            const quatitiyInput = document.createElement("input")
+            quatitiyInput.classList.add("dialog__input--number")
+            quatitiyInput.classList.add("dialog__input")
+
+            quatitiyInput.type = "number";
+            quatitiyInput.value = 1;
+            
+            addToCartButton.classList.add("dialog__input--submit")
+            addToCartButton.classList.add("dialog__input")
             addToCartButton.addEventListener("click", () => {
-                cart.addItem(new FoodCartItem(this.item));
+                let quantity = Number(quatitiyInput.value)
+                
+                for (let index = 0; index < quantity; index++) {
+                    cart.addItem(new FoodCartItem(this.item));
+                }
+                
                 cart.displayCart();
     
-                this.amount++;
+                this.amount += quantity;
                 dialog.close()
             })
 
-            dialogContent.appendChild(addToCartButton);
+            inputSection.appendChild(quatitiyInput)
+            inputSection.appendChild(addToCartButton);
+            dialogContent.appendChild(inputSection);
             dialog.showModal()
 
             // this.updateAmountIcon();
@@ -212,95 +235,113 @@ class FoodCartItem {
     }
 }
 
-new Burger({
-    name: "Chicken burger",
-    price: new Price(2.99),
-    img: "src/images/8.jpg"
+const api = axios.create({
+    baseURL: 'http://localhost:8022/api/',
 });
-new Side({
-    name: "Fries",
-    price: new Price(2.99),
-    img: "src/images/9.jpg"
-});
-new Burger({
-    name: "Classic burger",
-    price: new Price(2.99),
-    img: "src/images/10.jpg"
-});
-new Meal({
-    name: "Cheeseburger meal",
-    price: new Price(2.99),
-    img: "src/images/11.jpg"
-});
-new Meal({
-    name: "Goat-cheeseburger meal",
-    price: new Price(2.99),
-    img: "src/images/12.jpg"
-});
-new Meal({
-    name: "Veggieburger meal",
-    price: new Price(2.99),
-    img: "src/images/13.jpg"
-});
-new Meal({
-    name: "Chicken burger meal",
-    price: new Price(2.99),
-    img: "src/images/14.jpg"
-});
-new Burger({
-    name: "Cheeseburger",
-    price: new Price(2.99),
-    img: "src/images/15.jpg"
-});
-new Meal({
-    name: "Classic burger meal",
-    price: new Price(2.99),
-    img: "src/images/16.jpg"
-});
-new Drink({
-    name: "Lipton peach",
-    price: new Price(2.99),
-    img: "src/images/5.jpg"
-});
-new Drink({
-    name: "Sprite",
-    price: new Price(2.99),
-    img: "src/images/1.jpg"
-});
-new Drink({
-    name: "Fanta cassis",
-    price: new Price(2.99),
-    img: "src/images/2.jpg"
-});
-new Drink({
-    name: "Lipton original",
-    price: new Price(2.99),
-    img: "src/images/3.jpg"
-});
-new Drink({
-    name: "Lipton green",
-    price: new Price(2.99),
-    img: "src/images/4.jpg"
-});
-new Drink({
-    name: "Water",
-    price: new Price(2.99),
-    img: "src/images/6.jpg"
-});
-new Drink({
-    name: "Sparkeling water",
-    price: new Price(2.99),
-    img: "src/images/7.jpg"
-});
-new Side({
-    name: "Salad",
-    price: new Price(3.99),
-    img: "src/images/18.jpg"
-});
-new Burger({
-    name: "Portobello burger",
-    price: new Price(10.99),
-    img: "src/images/17.jpg"
-});
+
+api.get("/dish").then((res) => {
+    switch (res.category) {
+       case "Burgers":
+            new Burger(res)
+            break;
+    
+        default:
+            console.log("Unknown category:" , res.category)
+            break;
+    }
+}).catch((err) => {
+    console.error(err);
+})
+
+// new Burger({
+//     name: "Chicken burger",
+//     price: new Price(2.99),
+//     img: "src/images/8.jpg"
+// });
+// new Side({
+//     name: "Fries",
+//     price: new Price(2.99),
+//     img: "src/images/9.jpg"
+// });
+// new Burger({
+//     name: "Classic burger",
+//     price: new Price(2.99),
+//     img: "src/images/10.jpg"
+// });
+// new Meal({
+//     name: "Cheeseburger meal",
+//     price: new Price(2.99),
+//     img: "src/images/11.jpg"
+// });
+// new Meal({
+//     name: "Goat-cheeseburger meal",
+//     price: new Price(2.99),
+//     img: "src/images/12.jpg"
+// });
+// new Meal({
+//     name: "Veggieburger meal",
+//     price: new Price(2.99),
+//     img: "src/images/13.jpg"
+// });
+// new Meal({
+//     name: "Chicken burger meal",
+//     price: new Price(2.99),
+//     img: "src/images/14.jpg"
+// });
+// new Burger({
+//     name: "Cheeseburger",
+//     price: new Price(2.99),
+//     img: "src/images/15.jpg"
+// });
+// new Meal({
+//     name: "Classic burger meal",
+//     price: new Price(2.99),
+//     img: "src/images/16.jpg"
+// });
+// new Drink({
+//     name: "Lipton peach",
+//     price: new Price(2.99),
+//     img: "src/images/5.jpg"
+// });
+// new Drink({
+//     name: "Sprite",
+//     price: new Price(2.99),
+//     img: "src/images/1.jpg"
+// });
+// new Drink({
+//     name: "Fanta cassis",
+//     price: new Price(2.99),
+//     img: "src/images/2.jpg"
+// });
+// new Drink({
+//     name: "Lipton original",
+//     price: new Price(2.99),
+//     img: "src/images/3.jpg"
+// });
+// new Drink({
+//     name: "Lipton green",
+//     price: new Price(2.99),
+//     img: "src/images/4.jpg"
+// });
+// new Drink({
+//     name: "Water",
+//     price: new Price(2.99),
+//     img: "src/images/6.jpg"
+// });
+// new Drink({
+//     name: "Sparkeling water",
+//     price: new Price(2.99),
+//     img: "src/images/7.jpg"
+// });
+// new Side({
+//     name: "Salad",
+//     price: new Price(3.99),
+//     img: "src/images/18.jpg"
+// });
+// new Burger({
+//     name: "Portobello burger",
+//     price: new Price(10.99),
+//     img: "src/images/17.jpg"
+// });
 
 let menu = new Menu(document.getElementsByTagName("article")[0], Food.collection);

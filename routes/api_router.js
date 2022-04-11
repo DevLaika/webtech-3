@@ -8,19 +8,28 @@ router.get('/auth', (req, res) => {
 });
 
 // Get dishes
-router.get('/dishes', (req, res) => {
+router.get('/dish', (req, res) => {
     const auth = true; // Todo: how to check authentication?
 
     if (auth) {
-        // load all (lazy?)
+        // Temporary: needs lazy loading, or pagination implemented.
+        db.all("SELECT * FROM dishes", (err, rows) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+            } else {
+                res.json(rows);
+            }
+        })
     } else {
-        // load 10 (less for lazy loading? should be max 10)
+        res.sendStatus(418);
     }
 
 });
 
 // Get dishes
-router.post('/dishes', (req, res) => {
+router.post('/dish', (req, res) => {
+    console.log("POST: Dishes")
     db.run(`--sql
         INSERT INTO dishes (name, price, img, description, category) VALUES (?, ?, ?, ?, ?);
     `, [req.body.name, req.body.price, req.body.img, req.body.description, req.body.category], (err) => {
@@ -33,9 +42,9 @@ router.post('/dishes', (req, res) => {
     });
 });
 
-// Get dishes
-router.put('/dishes:dish_id', (req, res) => {
-    // Load 10 without auth, all with
+// Alter dish?
+router.put('/dish', (req, res) => {
+
 });
 
 

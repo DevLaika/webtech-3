@@ -43,6 +43,45 @@ dialog {
 	width: min(100vw - 2rem, 600px);
 }
 
+.dialog__content > h1 {
+    margin: 0;
+}
+
+.dialog__section {
+    margin: 1rem 0;
+}
+
+.dialog__section--columns {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.dialog__section--input {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.dialog__input {
+    width: auto;
+}
+
+.dialog__input--submit {
+    border: none;
+    border-radius: none;
+    background-color: var(--bun);
+    font-size: large;
+    padding: .5em;
+}
+
+.dialog__input--number {
+    column-width: 3em;
+}
+
+.dialog__input--submit:hover {
+    cursor: pointer;
+    background-color: var(--cheese);
+}
+
 .dialog__close {
     position: absolute;
     float: right;

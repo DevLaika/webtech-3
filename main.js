@@ -5,12 +5,12 @@ const path = require('path');
 const port = 8022;
 
 // Import api functionality from ./routes/api_router
-const api_router = require('./routes/api_router');
-
 app.use(cors());
+
+const api_router = require('./routes/api_router');
 // Use the static html and css pages located in ./public
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.set
 app.use(express.json());
 
 
