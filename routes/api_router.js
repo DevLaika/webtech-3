@@ -1,11 +1,43 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
+const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 
-// Login
-router.get('/auth', (req, res) => {
+router.post('/user', async (req, res) => {
+    try {
+        const { email, name, password } = req.body;
+        const hash = await bcrypt.hash(password, 10);
+        const insert = db.prepare('INSERT INTO users (id, email, name, password) VALUES (?, ?, ?, ?)');
+        insert.run(uuid.v4(), email, name, hash);
+        res.status(200);
+        res.redirect("/login.html");
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('something broke');
+    }
+});
 
+// login functionality
+router.post('/auth', async (req, res) => {
+    try {
+        db.get('SELECT * FROM users WHERE email = ?', [req.body.email], async (err, row) => {
+            if (err) {
+                throw err;
+            }
+            if (!row) {
+                throw new Error("No user exists with these login details.")
+            }
+            if (await bcrypt.compare(req.body.password, row.password)) {
+                res.status(200).json('Valid login credentials!');
+            } else {
+                res.sendStatus(403);
+            }
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('Something went wrong on our end.');
+    }
 });
 
 // Get dishes
@@ -21,7 +53,7 @@ router.get('/dish', (req, res) => {
             } else {
                 res.json(rows);
             }
-        })
+        });
     } else {
         res.sendStatus(418);
     }
@@ -30,7 +62,7 @@ router.get('/dish', (req, res) => {
 
 // Get dishes
 router.post('/dish', (req, res) => {
-    console.log("POST: Dishes")
+    console.log("POST: Dishes");
     db.run(`--sql
         INSERT INTO dishes (name, price, img, description, category) VALUES (?, ?, ?, ?, ?);
     `, [req.body.name, req.body.price, req.body.img, req.body.description, req.body.category], (err) => {
@@ -46,21 +78,6 @@ router.post('/dish', (req, res) => {
 // Alter dish?
 router.put('/dish', (req, res) => {
 
-});
-
-
-// Register a user
-router.post('/user', (req, res) => {
-    db.run(`--sql
-        INSERT INTO users (id, email, name, password) VALUES (?, ?, ?, ?);
-    `, [uuid.v4() ,req.body.email, req.body.name, req.body.password], (err) => {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        } else {
-            return res.sendStatus(200);
-        }
-    });
 });
 
 // Edit user info

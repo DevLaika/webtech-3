@@ -1,11 +1,34 @@
 <!DOCTYPE HTML>
 <html>
-    <head> <meta charset= "utf-8"> </head>
-        <body>
-            <form name="data" action="http://localhost:8022/login" method="POST">
-                <p>Email: <input type="email" name="email" placeholder="Email"></p>
-                <p>Password: <input type="password" name="password" placeholder="password"></p>
-                <p><input type="submit"value="Login"/></p>
-            </form>
-        </body>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <form id="loginform">
+        <p>Email: <input type="email" name="email" placeholder="Email"></p>
+        <p>Password: <input type="password" name="password" placeholder="password"></p>
+        <p><input type="submit" value="Login" /></p>
+    </form>
+</body>
+<script>
+    const api = axios.create({
+        baseURL: 'http://localhost:8022/api/',
+    });
+
+    loginform.addEventListener("submit", (event) => {
+        event.preventDefault();
+        let formData = new FormData(loginform);
+        let loginData = Object.fromEntries(formData.entries());
+
+        api.post('/auth', loginData).then((res) => {
+            console.log("Result", res);
+        }).catch((err) => {
+            console.log(err);
+        });
+    });
+</script>
+
 </html>
