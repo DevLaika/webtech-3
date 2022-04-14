@@ -1,3 +1,5 @@
+
+
 class Cart {
     constructor() {
         this.items = [];
@@ -27,10 +29,7 @@ class Cart {
         orderButton.className = "button button--green button--margins";
 
         orderButton.addEventListener("click", (event) => {
-            let form = document.createElement("form");
-            form.appendChild(document.createElement("input"))
-            dialogContent.replaceChildren(form)
-            dialog.showModal();
+            this.checkOutOrder();
         })
 
         this.element.appendChild(orderButton);
@@ -147,7 +146,14 @@ class Cart {
         // }
     }
     checkOutOrder() {
-        console.log("to order checkout")
+        dialogContent.replaceChildren();
+
+        const h = document.createElement("h1").append("Check out");
+        
+        const p = document.createElement("p").append("Total: €"+this.getTotal());
+        
+        dialogContent.append([h,p])
+        dialog.showModal();
     }
 }
 

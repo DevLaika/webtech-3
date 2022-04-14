@@ -239,6 +239,7 @@ class FoodCartItem {
 
 const api = axios.create({
     baseURL: 'http://localhost:8022/api/',
+    
 });
 
 api.get("/dish").then((res) => {
