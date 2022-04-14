@@ -1,34 +1,32 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="login.css">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <form id="loginform">
-        <p>Email: <input type="email" name="email" placeholder="Email"></p>
-        <p>Password: <input type="password" name="password" placeholder="password"></p>
-        <p><input type="submit" value="Login" /></p>
-    </form>
+	<div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+			<div class="signup">
+				<form  name="data" action="http://localhost:8022/register" method="POST">
+					<label for="chk" aria-hidden="true">Sign up</label>
+					<input type="name" name="name" placeholder="Name" required="">
+					<input type="email" name="email" placeholder="Email" required="">
+					<input type="password" name="password" placeholder="Password" required="">
+					<button type="submit"value="Register">Sign up</button>
+				</form>
+			</div>
+
+			<div class="login">
+				<form action="http://localhost:8022/auth" method="post">
+					<label for="chk" aria-hidden="true">Login</label>
+					<input type="email" name="email" placeholder="Email" required="">
+					<input type="password" name="password" placeholder="Password" required="">
+					<button type="submit"value="Login">Login</button>
+				</form>
+			</div>
+	</div>
 </body>
-<script>
-    const api = axios.create({
-        baseURL: 'http://localhost:8022/api/',
-    });
-
-    loginform.addEventListener("submit", (event) => {
-        event.preventDefault();
-        let formData = new FormData(loginform);
-        let loginData = Object.fromEntries(formData.entries());
-
-        api.post('/auth', loginData).then((res) => {
-            console.log("Result", res);
-        }).catch((err) => {
-            console.log(err);
-        });
-    });
-</script>
-
 </html>
