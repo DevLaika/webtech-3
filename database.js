@@ -77,6 +77,7 @@ db.serialize(() => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id TEXT NOT null,
             dish_id INTEGER NOT null,
+            datetime INTEGER NOT null,
             rating INTEGER CHECK (rating BETWEEN 1 AND 5),
             review TEXT,
             FOREIGN KEY (user_id) REFERENCES users(id),

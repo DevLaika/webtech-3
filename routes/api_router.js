@@ -133,7 +133,17 @@ router.delete('/oderhistory', (req, res) => {
 });
 
 router.get('/cart', (req, res) => {
-    // Get userid's cart if exists
+    // !!!! userID is currently undefined. this will not work until sessions are figured out.
+    res.sendStatus(418);
+    throw new Error("UserID is not defined yet, fix sessions!!!");
+
+    db.all("SELECT (dish_id, quantity) FROM cartdishes WHERE cart_id IN (SELECT id FROM carts WHERE user_id = ?)", [userID], (err, rows) => {
+        if (err) {
+            res.sendStatus(500);
+            throw new Error(`Error in getting cart of user ${userID}!`);
+        }
+        res.json(rows);    
+    })
 });
 
 router.post('/cart', (req, res) => {
@@ -209,6 +219,11 @@ router.post('/order', (req, res) => {
         });
     }
 });
+
+
+router.get('/review', (req, res) => {
+
+})
 
 // Export api routes
 module.exports = router;
