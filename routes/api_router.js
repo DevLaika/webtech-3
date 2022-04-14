@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
+const uuid = require('uuid');
 
 // Login
 router.get('/auth', (req, res) => {
@@ -51,8 +52,8 @@ router.put('/dish', (req, res) => {
 // Register a user
 router.post('/user', (req, res) => {
     db.run(`--sql
-        INSERT INTO users (email, name, password) VALUES (?, ?, ?);
-    `, [req.body.email, req.body.name, req.body.password], (err) => {
+        INSERT INTO users (id, email, name, password) VALUES (?, ?, ?, ?);
+    `, [uuid.v4() ,req.body.email, req.body.name, req.body.password], (err) => {
         if (err) {
             console.log(err);
             return res.sendStatus(500);

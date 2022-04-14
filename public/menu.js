@@ -1,4 +1,11 @@
 
+const dialogContent = document.getElementsByClassName("dialog__content")[0];
+const dialog = document.getElementsByClassName("dialog")[0];
+const closeButton = document.getElementsByClassName("dialog__close")[0];
+closeButton.addEventListener("click", () => {
+    dialog.close();
+});
+
 // Example of event propagation, the click event from the buttons bubbles up to the body,
 // where they are caught. These are then used to open the aside cart.
 document.body.addEventListener("click", (event) => {
@@ -77,6 +84,7 @@ class Food {
         this.category = item.category;
         this.price = item.price;
         this.img = item.img;
+        this.description = item.description;
 
         Food.collection.push(this);
     }
@@ -126,55 +134,49 @@ class FoodMenuItem {
         button.appendChild(document.createTextNode("Order"));
 
         button.addEventListener("click", () => {
-            const dialog = document.getElementsByClassName("dialog")[0]
-            const dialogContent = document.getElementsByClassName("dialog__content")[0];
-            const closeButton = document.getElementsByClassName("dialog__close")[0];
-            closeButton.addEventListener("click", () => {
-                dialog.close();
-            })
             const h = document.createElement("h1");
-            h.appendChild(document.createTextNode(this.item.name))
-            dialogContent.replaceChildren(h)
-            const s = document.createElement("section")
+            h.appendChild(document.createTextNode(this.item.name));
+            dialogContent.replaceChildren(h);
+            const s = document.createElement("section");
             s.classList.add("dialog__section", "dialog__section--columns");
-            s.append(img.cloneNode(), document.createElement("p").appendChild(document.createTextNode(this.item.description)))
+            s.append(img.cloneNode(), document.createElement("p").appendChild(document.createTextNode(this.item.description)));
 
             dialogContent.appendChild(s);
 
-            
-            const inputSection = document.createElement("section");
-            inputSection.classList.add("dialog__section--input")
 
-            const addToCartButton = document.createElement("input")
-            addToCartButton.type = "submit"
-            addToCartButton.value = "Add to cart"
-            
-            const quatitiyInput = document.createElement("input")
-            quatitiyInput.classList.add("dialog__input--number")
-            quatitiyInput.classList.add("dialog__input")
+            const inputSection = document.createElement("section");
+            inputSection.classList.add("dialog__section--input");
+
+            const addToCartButton = document.createElement("input");
+            addToCartButton.type = "submit";
+            addToCartButton.value = "Add to cart";
+
+            const quatitiyInput = document.createElement("input");
+            quatitiyInput.classList.add("dialog__input--number");
+            quatitiyInput.classList.add("dialog__input");
 
             quatitiyInput.type = "number";
             quatitiyInput.value = 1;
-            
-            addToCartButton.classList.add("dialog__input--submit")
-            addToCartButton.classList.add("dialog__input")
+
+            addToCartButton.classList.add("dialog__input--submit");
+            addToCartButton.classList.add("dialog__input");
             addToCartButton.addEventListener("click", () => {
-                let quantity = Number(quatitiyInput.value)
-                
+                let quantity = Number(quatitiyInput.value);
+
                 for (let index = 0; index < quantity; index++) {
                     cart.addItem(new FoodCartItem(this.item));
                 }
-                
-                cart.displayCart();
-    
-                this.amount += quantity;
-                dialog.close()
-            })
 
-            inputSection.appendChild(quatitiyInput)
+                cart.displayCart();
+
+                this.amount += quantity;
+                dialog.close();
+            });
+
+            inputSection.appendChild(quatitiyInput);
             inputSection.appendChild(addToCartButton);
             dialogContent.appendChild(inputSection);
-            dialog.showModal()
+            dialog.showModal();
 
             // this.updateAmountIcon();
 
@@ -185,7 +187,7 @@ class FoodMenuItem {
         this.element.appendChild(button);
 
         parent.appendChild(this.element);
-        FoodMenuItem.collection.push(this)
+        FoodMenuItem.collection.push(this);
 
     }
 
@@ -240,108 +242,28 @@ const api = axios.create({
 });
 
 api.get("/dish").then((res) => {
-    switch (res.category) {
-       case "Burgers":
-            new Burger(res)
-            break;
-    
-        default:
-            console.log("Unknown category:" , res.category)
-            break;
+    for (const dish of res.data) {
+        dish.price = new Price(dish.price);
+        switch (dish.category) {
+            case "Burgers":
+                new Burger(dish);
+                break;
+
+            case "Drinks":
+                new Drink(dish);
+                break;
+
+            case "Meals":
+                new Meal(dish);
+                break;
+
+            default:
+                console.log("Unknown category:", dish.category);
+                break;
+        }
     }
+    new Menu(document.getElementsByTagName("article")[0], Food.collection);
 }).catch((err) => {
     console.error(err);
-})
+});
 
-// new Burger({
-//     name: "Chicken burger",
-//     price: new Price(2.99),
-//     img: "src/images/8.jpg"
-// });
-// new Side({
-//     name: "Fries",
-//     price: new Price(2.99),
-//     img: "src/images/9.jpg"
-// });
-// new Burger({
-//     name: "Classic burger",
-//     price: new Price(2.99),
-//     img: "src/images/10.jpg"
-// });
-// new Meal({
-//     name: "Cheeseburger meal",
-//     price: new Price(2.99),
-//     img: "src/images/11.jpg"
-// });
-// new Meal({
-//     name: "Goat-cheeseburger meal",
-//     price: new Price(2.99),
-//     img: "src/images/12.jpg"
-// });
-// new Meal({
-//     name: "Veggieburger meal",
-//     price: new Price(2.99),
-//     img: "src/images/13.jpg"
-// });
-// new Meal({
-//     name: "Chicken burger meal",
-//     price: new Price(2.99),
-//     img: "src/images/14.jpg"
-// });
-// new Burger({
-//     name: "Cheeseburger",
-//     price: new Price(2.99),
-//     img: "src/images/15.jpg"
-// });
-// new Meal({
-//     name: "Classic burger meal",
-//     price: new Price(2.99),
-//     img: "src/images/16.jpg"
-// });
-// new Drink({
-//     name: "Lipton peach",
-//     price: new Price(2.99),
-//     img: "src/images/5.jpg"
-// });
-// new Drink({
-//     name: "Sprite",
-//     price: new Price(2.99),
-//     img: "src/images/1.jpg"
-// });
-// new Drink({
-//     name: "Fanta cassis",
-//     price: new Price(2.99),
-//     img: "src/images/2.jpg"
-// });
-// new Drink({
-//     name: "Lipton original",
-//     price: new Price(2.99),
-//     img: "src/images/3.jpg"
-// });
-// new Drink({
-//     name: "Lipton green",
-//     price: new Price(2.99),
-//     img: "src/images/4.jpg"
-// });
-// new Drink({
-//     name: "Water",
-//     price: new Price(2.99),
-//     img: "src/images/6.jpg"
-// });
-// new Drink({
-//     name: "Sparkeling water",
-//     price: new Price(2.99),
-//     img: "src/images/7.jpg"
-// });
-// new Side({
-//     name: "Salad",
-//     price: new Price(3.99),
-//     img: "src/images/18.jpg"
-// });
-// new Burger({
-//     name: "Portobello burger",
-//     price: new Price(10.99),
-//     img: "src/images/17.jpg"
-// });
-
-let menu = new Menu(document.getElementsByTagName("article")[0], Food.collection);

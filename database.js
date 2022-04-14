@@ -18,7 +18,7 @@ db.serialize(() => {
     );`)
     .run(`--sql
         CREATE TABLE if NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id TEXT PRIMARY KEY,
             email TEXT NOT NULL,
             name TEXT NOT NULL,
             password TEXT NOT NULL,
@@ -37,7 +37,7 @@ db.serialize(() => {
     .run(`--sql
         CREATE TABLE if NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT null,
+            user_id TEXT NOT null,
             total INTEGER NOT null,
             datetime INTEGER NOT null,
             address_id INTEGER NOT null,
@@ -48,7 +48,7 @@ db.serialize(() => {
     .run(`--sql
         create table if NOT EXISTS carts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT null,
+            user_id TEXT NOT null,
             FOREIGN KEY (user_id) REFERENCES users(id)
         );`
     )
@@ -75,9 +75,11 @@ db.serialize(() => {
     .run (`--sql
         CREATE TABLE IF NOT EXISTS reviews (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT NOT null,
             dish_id INTEGER NOT null,
             rating INTEGER CHECK (rating BETWEEN 1 AND 5),
             review TEXT,
+            FOREIGN KEY (user_id) REFERENCES users(id),
             FOREIGN KEY (dish_id) REFERENCES dishes(id)
         )
     `)

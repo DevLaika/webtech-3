@@ -25,6 +25,14 @@ class Cart {
         let orderButton = document.createElement("button");
         orderButton.appendChild(document.createTextNode("Check Out"));
         orderButton.className = "button button--green button--margins";
+
+        orderButton.addEventListener("click", (event) => {
+            let form = document.createElement("form");
+            form.appendChild(document.createElement("input"))
+            dialogContent.replaceChildren(form)
+            dialog.showModal();
+        })
+
         this.element.appendChild(orderButton);
     }
     addItem(item) {
@@ -137,6 +145,9 @@ class Cart {
         //     let label = item.quantity + "x "+item.item.name+": "+item.item.price;
         //     ul.appendChild(document.createElement("li")).appendChild(document.createTextNode(item.item.name+" ("+item.quantity+")"));
         // }
+    }
+    checkOutOrder() {
+        console.log("to order checkout")
     }
 }
 
