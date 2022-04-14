@@ -10,7 +10,7 @@ body{
 	font-family: 'Jost', sans-serif;
 	background:  white;
 }
-.main{
+main{
 	width: 350px;
 	height: 500px;
 	background: rgb(255, 255, 255);
@@ -53,7 +53,7 @@ p{
     color: #432818;
     display: flex;
 }
-button{
+input[type=submit]{
 	width: 60%;
 	height: 40px;
 	margin: 10px auto;
@@ -70,7 +70,7 @@ button{
 	transition: .2s ease-in;
 	cursor: pointer;
 }
-button:hover{
+input[type=submit]:hover{
 	background: #FFC43D;
 }
 .login{
