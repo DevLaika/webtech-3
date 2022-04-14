@@ -148,11 +148,70 @@ class Cart {
     checkOutOrder() {
         dialogContent.replaceChildren();
 
-        const h = document.createElement("h1").append("Check out");
+        const h = document.createElement("h1")
+        h.append("Check out");
         
-        const p = document.createElement("p").append("Total: €"+this.getTotal());
+        const p = document.createElement("p")
+        p.append("Total: €"+this.getTotal());
+
+        const form = document.createElement("form");
+
+        const addressFieldset = document.createElement("fieldset");
+        const legend = document.createElement("legend");
+        legend.append("Address")
+        addressFieldset.appendChild(legend)
         
-        dialogContent.append([h,p])
+        const addressDetailNames = ["country", "city", "postalcode", "street", "number"]
+
+        for (const detailName of addressDetailNames) {
+            const upperName = detailName.charAt(0).toUpperCase() + detailName.slice(1);
+            const label = document.createElement("label")
+            label.append(upperName);
+            const input = document.createElement("input")
+            input.placeholder = upperName;
+            input.name = detailName;
+            input.type = "text";
+            addressFieldset.append(label, input, document.createElement("br"))
+        }
+        
+        const submitButton = document.createElement("input");
+        submitButton.type = "submit";
+        submitButton.value = "Send order";
+
+        form.append(addressFieldset, submitButton);
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            let formData = new FormData(form);
+            let orderData = Object.fromEntries(formData.entries());
+
+            let reqData = {
+                address: {
+                    country: orderData.country,
+                    city: orderData.city,
+                    postalcode: orderData.postalcode,
+                    street: orderData.street,
+                    number: orderData.number
+                },
+                items: []
+            }
+
+            for (const item of this.items) {
+                reqData.items.push({
+                    id: item.id,
+                    quantity: item.quantity
+                })
+            }
+
+            api.post('/order', reqData).then((res) => {
+                console.log(res);
+            }).catch((err) => {
+                console.log(err);
+            });
+        })
+
+        dialogContent.append(h,p, form)
+
         dialog.showModal();
     }
 }
