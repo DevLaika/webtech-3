@@ -60,7 +60,7 @@ router.get('/dish', (req, res) => {
 
 });
 
-// Get dishes
+// Create new dishes
 router.post('/dish', (req, res) => {
     console.log("POST: Dishes");
     db.run(`--sql
@@ -87,7 +87,19 @@ router.put('/user', (req, res) => {
 
 // Get user info
 router.get('/user', (req, res) => {
+    // !!!! userID is currently undefined. this will not work until sessions are figured out.
+    if (!userID) {
+        res.sendStatus(418);
+        throw new Error("UserID is not defined yet, fix sessions!!!");
+    }
 
+    db.get("SELECT (name, email) FROM users WHERE id = ?", [userID], (err, row) => {
+        if (err) {
+            res.sendStatus(500);
+            throw new Error(`Something went wrong getting user '${userID}'!`)
+        }
+        res.json(row);
+    })
 });
 
 // Delete user
@@ -97,7 +109,24 @@ router.delete('/user', (req, res) => {
 
 // Get order history
 router.get('/oderhistory', (req, res) => {
+    // !!!! userID is currently undefined. this will not work until sessions are figured out.
+    if (!userID) {
+        res.sendStatus(418);
+        throw new Error("UserID is not defined yet, fix sessions!!!");
+    }
 
+    db.all("SELECT * FROM orders WHERE user_id = ?", [userID], (err, rows) => {
+        if (err) {
+            res.sendStatus(500);
+            throw new Error(`Something went wrong receiving orders for user '${userID}'`)
+        }
+        if (rows) {
+            for (const row of rows) {
+                delete row.id;
+            }
+        }
+        res.json(rows);
+    })
 });
 
 // Delete order history
