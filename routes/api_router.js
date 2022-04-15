@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../database');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
+let currentSession = {userID: null};
 
 router.post('/user', async (req, res) => {
     try {
@@ -32,12 +33,13 @@ router.post('/auth', async (req, res) => {
                 return;
             }
             if (await bcrypt.compare(req.body.password, row.password)) {
-
-                req.session.userID = row.id;
+                currentSession = req.session;
+                currentSession.userID = row.id;
 
                 console.log(req.session);
 
                 res.status(200).json('Valid login credentials!');
+                res.redirect('index.html');
             } else {
                 res.sendStatus(401);
             }
@@ -69,7 +71,7 @@ router.get('/dish/:id',(req, res) => {
 // Get dishes
 router.get('/dish', (req, res) => {
 
-    const auth = true; // Todo: how to check authentication?
+    const auth = currentSession.userID; // Todo: how to check authentication?
 
     console.log(req.session);
 
@@ -119,13 +121,13 @@ router.put('/user', (req, res) => {
 // Get user info
 router.get('/user', (req, res) => {
     // !!!! userID is currently undefined. this will not work until sessions are figured out.
-    res.sendStatus(418);
-    throw new Error("UserID is not defined yet, fix sessions!!!");
+    // res.sendStatus(418);
+    // throw new Error("UserID is not defined yet, fix sessions!!!");
 
-    db.get("SELECT (name, email) FROM users WHERE id = ?", [userID], (err, row) => {
+    db.get("SELECT (name, email) FROM users WHERE id = ?", [currentSession.userID], (err, row) => {
         if (err) {
             res.sendStatus(500);
-            throw new Error(`Something went wrong getting user '${userID}'!`);
+            throw new Error(`Something went wrong getting user '${currentSession.userID}'!`);
         }
         res.json(row);
     });
@@ -138,7 +140,7 @@ router.delete('/user', (req, res) => {
 
 // Get order history
 router.get('/orderhistory', (req, res) => {
-    let userID = "1d87b7ae-bf32-45e7-834b-fd767abdb218";
+    // let userID = "1d87b7ae-bf32-45e7-834b-fd767abdb218";
 
     // !!!! userID is currently undefined. this will not work until sessions are figured out.
 
@@ -146,11 +148,11 @@ router.get('/orderhistory', (req, res) => {
     // throw new Error("UserID is not defined yet, fix sessions!!!");
 
 
-    db.all("SELECT * FROM orders WHERE user_id = ?", [userID], (err, rows) => {
+    db.all("SELECT * FROM orders WHERE user_id = ?", [currentSession.userID], (err, rows) => {
         if (err) {
             res.sendStatus(500);
             console.error(err);
-            throw new Error(`Something went wrong receiving orders for user '${userID}'`);
+            throw new Error(`Something went wrong receiving orders for user '${currentSession.userID}'`);
         }
         if (rows) {
             for (const row of rows) {
@@ -168,13 +170,13 @@ router.delete('/orderhistory', (req, res) => {
 });
 
 router.get('/cart', (req, res) => {
-    let userID = "1d87b7ae-bf32-45e7-834b-fd767abdb218";
+    // let userID = "1d87b7ae-bf32-45e7-834b-fd767abdb218";
     // !!!! userID is currently undefined. this will not work until sessions are figured out.
     // res.sendStatus(418);
     // throw new Error("UserID is not defined yet, fix sessions!!!");
 
     let cartID
-    db.get("SELECT id FROM carts WHERE user_id = ?", [userID], function (err, row) {
+    db.get("SELECT id FROM carts WHERE user_id = ?", [currentSession.userID], function (err, row) {
         if (err) {
             console.log(err)
             throw new Error('Error getting cart_id')
@@ -191,7 +193,7 @@ router.get('/cart', (req, res) => {
     db.all("SELECT (dish_id, quantity) FROM cartdishes WHERE cart_id = ?", [cartID], (err, rows) => {
         if (err) {
             console.error(err);
-            throw new Error(`Error in getting cart of user ${userID}!`);
+            throw new Error(`Error in getting cart of user ${currentSession.userID}!`);
         }
         res.json(rows);
     });
@@ -214,7 +216,7 @@ router.delete('/cart', (req, res) => {
 // "items": {"id": number, "quantity": number},
 // "address": {"country": string ... etc.}
 router.post('/order', (req, res) => {
-    let userID = "1d87b7ae-bf32-45e7-834b-fd767abdb218";
+    // let userID = "1d87b7ae-bf32-45e7-834b-fd767abdb218";
 
     // !!!! userID is currently undefined. this will not work until sessions are figured out.
 
@@ -250,16 +252,16 @@ router.post('/order', (req, res) => {
         }
         console.log(this.lastID);
         addressID = this.lastID;
-        db.run("UPDATE users SET address_id = ? WHERE id = ?", [addressID, userID], (err) => {
+        db.run("UPDATE users SET address_id = ? WHERE id = ?", [addressID, currentSession.userID], (err) => {
             if (err) {
-                throw new Error(`Something went wrong attaching address '${addressID}' to user ${userID}!`);
+                throw new Error(`Something went wrong attaching address '${addressID}' to user ${currentSession.userID}!`);
             }
             let orderID = null;
 
-            db.run("INSERT INTO orders (user_id, total, datetime, address_id) VALUES (?, ?, ?, ?)", [userID, total, Date.now(), addressID], function (err) {
+            db.run("INSERT INTO orders (user_id, total, datetime, address_id) VALUES (?, ?, ?, ?)", [currentSession.userID, total, Date.now(), addressID], function (err) {
                 if (err) {
                     console.log(err);
-                    throw new Error(`Something went wrong ordering for user '${userID}'!`);
+                    throw new Error(`Something went wrong ordering for user '${currentSession.userID}'!`);
                 }
                 orderID = this.lastID;
                 for (const item of req.body.items) {
