@@ -8,7 +8,6 @@ const app = express();
 const path = require('path');
 const port = 8022;
 // const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs');
 
 const SqliteStore = sqliteStoreFactory.default(session);
 
@@ -30,8 +29,6 @@ app.use(session({
 app.use(cookieParser());
 
 const api_router = require('./routes/api_router');
-const { ppid } = require('process');
-const res = require('express/lib/response');
 
 // Use the static html and css pages located in ./public
 app.use(express.static(path.join(__dirname, 'public')));

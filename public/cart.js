@@ -1,5 +1,3 @@
-
-
 class Cart {
     constructor() {
         this.items = [];
@@ -30,9 +28,23 @@ class Cart {
 
         orderButton.addEventListener("click", (event) => {
             this.checkOutOrder();
-        })
+        });
 
         this.element.appendChild(orderButton);
+
+        api.get("/cart").then((res) => {
+            for (const item of res) {
+                for (const food of Food.collection) {
+                    if (food.id === item.id) {
+                        food.quantity = item.quantity;
+                        this.items.push(food);
+                        break;
+                    }
+                }
+            }
+        }).catch((err) => {
+            console.error(err);
+        });
     }
     addItem(item) {
         if (!this.items.some(i => i.id === item.id)) {
@@ -42,7 +54,7 @@ class Cart {
     }
     getTotal() {
         return this.items.reduce((total, item) => {
-            total += item.quantity*item.price.price;
+            total += item.quantity * item.price.price;
             return total;
         }, 0).toFixed(2);
     }
@@ -80,7 +92,7 @@ class Cart {
                     i.quantity = e.target.value;
                     Food.collection.forEach(element => {
                         if (element.id === i.id) {
-                            console.log(element)
+                            console.log(element);
                             element.quantity = i.quantity;
                             element.update();
                         }
@@ -95,7 +107,7 @@ class Cart {
                 i.quantity--;
                 Food.collection.forEach(element => {
                     if (element.id == i.id) {
-                        console.log(element)
+                        console.log(element);
                         element.quantity = i.quantity;
                         element.update();
                     }
@@ -110,9 +122,9 @@ class Cart {
                 this.showItemsInCart();
                 Food.collection.forEach(element => {
                     if (element.id === i.id) {
-                        console.log(element)
+                        console.log(element);
                         element.quantity = i.quantity;
-                        element.update()
+                        element.update();
                     }
                 });
             });
@@ -128,7 +140,7 @@ class Cart {
             r.appendChild(document.createElement("th")).appendChild(img);
             r.appendChild(quantityCell);
             r.appendChild(document.createElement("th")).appendChild(document.createTextNode(i.name));
-            r.appendChild(document.createElement("th")).appendChild(document.createTextNode("€"+i.price.price));
+            r.appendChild(document.createElement("th")).appendChild(document.createTextNode("€" + i.price.price));
         });
 
         let r = document.createElement("tr");
@@ -137,7 +149,7 @@ class Cart {
         r.appendChild(document.createElement("th"));
         r.appendChild(document.createElement("th"));
         r.appendChild(document.createElement("th")).appendChild(document.createTextNode("Total:"));;
-        r.appendChild(document.createElement("th")).appendChild(document.createTextNode("€"+this.getTotal()));
+        r.appendChild(document.createElement("th")).appendChild(document.createTextNode("€" + this.getTotal()));
         // for (let i in this.items) {
         //     let item = this.items[i];
         //     let label = item.quantity + "x "+item.name+": "+item.price;
@@ -147,37 +159,37 @@ class Cart {
     checkOutOrder() {
         dialogContent.replaceChildren();
 
-        const h = document.createElement("h1")
+        const h = document.createElement("h1");
         h.append("Check out");
-        
-        const p = document.createElement("p")
-        p.append("Total: €"+this.getTotal());
+
+        const p = document.createElement("p");
+        p.append("Total: €" + this.getTotal());
 
         const form = document.createElement("form");
         form.classList.add("classform");
 
         const addressFieldset = document.createElement("fieldset");
-        addressFieldset.classList.add("dialog__section--columns")
+        addressFieldset.classList.add("dialog__section--columns");
         const legend = document.createElement("legend");
-        legend.append("Address")
-        addressFieldset.appendChild(legend)
-        
-        const addressDetailNames = ["country", "city", "postalcode", "street", "number"]
+        legend.append("Address");
+        addressFieldset.appendChild(legend);
+
+        const addressDetailNames = ["country", "city", "postalcode", "street", "number"];
 
         for (const detailName of addressDetailNames) {
             const div = document.createElement("div");
             const upperName = detailName.charAt(0).toUpperCase() + detailName.slice(1);
-            const label = document.createElement("label")
+            const label = document.createElement("label");
             label.append(upperName);
-            const input = document.createElement("input")
+            const input = document.createElement("input");
             input.placeholder = upperName;
             input.name = detailName;
             input.type = "text";
             input.required = true;
-            div.append(label, input)
+            div.append(label, input);
             addressFieldset.append(div);
         }
-        
+
         const submitButton = document.createElement("input");
         submitButton.type = "submit";
         submitButton.value = "Send order";
@@ -198,13 +210,15 @@ class Cart {
                     number: orderData.number
                 },
                 items: []
-            }
+            };
+
+            console.log(reqData);
 
             for (const item of this.items) {
                 reqData.items.push({
                     id: item.id,
                     quantity: item.quantity
-                })
+                });
             }
 
             api.post('/order', reqData).then((res) => {
@@ -212,9 +226,9 @@ class Cart {
             }).catch((err) => {
                 console.log(err);
             });
-        })
+        });
 
-        dialogContent.append(h,p, form)
+        dialogContent.append(h, p, form);
 
         dialog.showModal();
     }
