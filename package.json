@@ -20,8 +20,11 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^7.5.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "express-session-sqlite": "^2.0.10",
     "simple-node-logger": "^21.8.12",
     "sqlite3": "^5.0.2",
     "uuid": "^8.3.2"

@@ -35,7 +35,9 @@ class Cart {
         this.element.appendChild(orderButton);
     }
     addItem(item) {
-        this.items.push(item);
+        if (!this.items.some(i => i.id === item.id)) {
+            this.items.push(item);
+        }
         this.element.scrollIntoView();
     }
     getTotal() {
@@ -152,8 +154,10 @@ class Cart {
         p.append("Total: €"+this.getTotal());
 
         const form = document.createElement("form");
+        form.classList.add("classform");
 
         const addressFieldset = document.createElement("fieldset");
+        addressFieldset.classList.add("dialog__section--columns")
         const legend = document.createElement("legend");
         legend.append("Address")
         addressFieldset.appendChild(legend)
@@ -161,6 +165,7 @@ class Cart {
         const addressDetailNames = ["country", "city", "postalcode", "street", "number"]
 
         for (const detailName of addressDetailNames) {
+            const div = document.createElement("div");
             const upperName = detailName.charAt(0).toUpperCase() + detailName.slice(1);
             const label = document.createElement("label")
             label.append(upperName);
@@ -169,7 +174,8 @@ class Cart {
             input.name = detailName;
             input.type = "text";
             input.required = true;
-            addressFieldset.append(label, input, document.createElement("br"))
+            div.append(label, input)
+            addressFieldset.append(div);
         }
         
         const submitButton = document.createElement("input");

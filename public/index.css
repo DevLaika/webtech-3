@@ -21,6 +21,10 @@
     --tomato: #ff1f48;
 }
 
+.classform label {
+    display: block;
+}
+
 html {
     font-family: Roboto, serif;
 }

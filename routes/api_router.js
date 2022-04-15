@@ -26,12 +26,19 @@ router.post('/auth', async (req, res) => {
                 throw err;
             }
             if (!row) {
-                throw new Error("No user exists with these login details.");
+                console.error("No user exists with these login details.");
+                res.sendStatus(404)
+                return
             }
             if (await bcrypt.compare(req.body.password, row.password)) {
+
+                req.session.userID = row.id;
+
+                console.log(req.session);
+
                 res.status(200).json('Valid login credentials!');
             } else {
-                res.sendStatus(403);
+                res.sendStatus(401);
             }
         });
     } catch (e) {
@@ -43,6 +50,8 @@ router.post('/auth', async (req, res) => {
 // Get dishes
 router.get('/dish', (req, res) => {
     const auth = true; // Todo: how to check authentication?
+
+    console.log(req.session);
 
     if (auth) {
         // Temporary: needs lazy loading, or pagination implemented.

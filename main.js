@@ -1,4 +1,8 @@
 const express = require('express');
+const session = require('express-session');
+const sqlite3 = require('sqlite3');
+const sqliteStoreFactory = require('express-session-sqlite')
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
 const path = require('path');
@@ -6,10 +10,24 @@ const port = 8022;
 // const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 
-const Database = require('better-sqlite3');
+const SqliteStore = sqliteStoreFactory.default(session);
 
 // Import api functionality from ./routes/api_router
 app.use(cors());
+
+app.use(session({
+  store: new SqliteStore({
+    driver: sqlite3.Database,
+    path: "./sessionstore.db",
+    ttl: 1234
+  }),
+  secret: "webtech-secret",
+  saveUninitialized: true,
+  cookie: { maxAge: 1000 * 60 * 60 * 24 },
+  resave: false
+}));
+
+app.use(cookieParser());
 
 const api_router = require('./routes/api_router');
 const { ppid } = require('process');
@@ -17,7 +35,7 @@ const res = require('express/lib/response');
 
 // Use the static html and css pages located in ./public
 app.use(express.static(path.join(__dirname, 'public')));
-app.set
+app.set;
 app.use(express.json());
 
 
@@ -25,7 +43,7 @@ app.use(express.json());
 // Use the api functionality
 app.use('/api', api_router);
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
