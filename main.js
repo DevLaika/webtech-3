@@ -22,9 +22,9 @@ app.use(session({
     ttl: 1234
   }),
   secret: "webtech-secret",
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { maxAge: 1000 * 60 * 60 * 24 },
-  resave: false
+  resave: true
 }));
 
 app.use(cookieParser());
@@ -35,7 +35,7 @@ const res = require('express/lib/response');
 
 // Use the static html and css pages located in ./public
 app.use(express.static(path.join(__dirname, 'public')));
-app.set;
+
 app.use(express.json());
 
 

@@ -21,6 +21,7 @@ router.post('/user', async (req, res) => {
 // login functionality
 router.post('/auth', async (req, res) => {
     try {
+        console.log(req.body)
         db.get('SELECT * FROM users WHERE email = ?', [req.body.email], async (err, row) => {
             if (err) {
                 throw err;

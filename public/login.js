@@ -25,7 +25,7 @@ loginform.addEventListener("submit", (event) => {
         console.log("Incorrect login forms")
         return;
     }
-    let formData = new FormData(signupform);
+    let formData = new FormData(loginform);
     let dishData = Object.fromEntries(formData.entries());
 
     api.post('/auth', dishData).then((res) => {
