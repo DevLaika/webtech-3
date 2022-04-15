@@ -248,6 +248,10 @@ api.get("/dish").then((res) => {
             case "Meals":
                 new Meal(dish);
                 break;
+                
+            case "Sides":
+                new Side(dish);
+                break;
 
             default:
                 console.log("Unknown category:", dish.category);
