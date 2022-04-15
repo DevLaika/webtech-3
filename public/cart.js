@@ -35,13 +35,7 @@ class Cart {
         this.element.appendChild(orderButton);
     }
     addItem(item) {
-        if (this.items.some(i => i.name === item.name)) {
-            this.items.find(i => i.name === item.name).quantity++;
-        } else {
-            this.items.push({
-                ...item
-            });
-        }
+        this.items.push(item);
         this.element.scrollIntoView();
     }
     getTotal() {
