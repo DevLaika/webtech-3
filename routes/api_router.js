@@ -142,8 +142,8 @@ router.get('/cart', (req, res) => {
             res.sendStatus(500);
             throw new Error(`Error in getting cart of user ${userID}!`);
         }
-        res.json(rows);    
-    })
+        res.json(rows);
+    });
 });
 
 router.post('/cart', (req, res) => {
@@ -223,7 +223,7 @@ router.post('/order', (req, res) => {
 
 router.get('/review', (req, res) => {
 
-})
+});
 
 // Export api routes
 module.exports = router;

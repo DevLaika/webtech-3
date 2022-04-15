@@ -67,7 +67,7 @@ class MenuSection {
         let list = document.createElement("ul");
         list.classList.add("menu__list");
         foods.forEach(item => {
-            this.cards.push(new FoodMenuItem(list, item));
+            list.appendChild(new Food(item).genMenuListItem());
         });
         this.element.appendChild(list);
 
@@ -77,6 +77,7 @@ class MenuSection {
 }
 
 class Food {
+    #amountIcon;
     static collection = [];
 
     constructor(item) {
@@ -85,47 +86,42 @@ class Food {
         this.price = item.price;
         this.img = item.img;
         this.description = item.description;
+        this.id = item.id;
+
+        this.#amountIcon = document.createElement("span");
+
+        this.quantity = 0;
 
         Food.collection.push(this);
     }
-}
 
-class FoodMenuItem {
-    static collection = [];
+    genMenuListItem() {
+        const element = document.createElement("li");
+        let info = document.createElement("div");
 
-    constructor(parent, item) {
-        this._amount = 0;
-        this.item = item;
+        this.#amountIcon.append(this.quantity);
+        this.#amountIcon.classList.add("menu__amount");
+        this.#amountIcon.hidden = true;
 
-        this.amountIcon = document.createElement("span");
-        this.amount = 0;
-
-        this.amountIcon.appendChild(document.createTextNode(this.amount));
-        this.amountIcon.classList.add("menu__amount");
-        this.amountIcon.hidden = true;
-
-        this.element = document.createElement("li");
-        let element2 = document.createElement("div");
-
-        this.element.appendChild(this.amountIcon);
-        element2.classList.add("menu__info");
-        this.element.appendChild(element2);
-        this.element.classList.add("menu__item");
+        element.appendChild(this.#amountIcon);
+        info.classList.add("menu__info");
+        element.appendChild(info);
+        element.classList.add("menu__item");
 
         let img = document.createElement("img");
         img.classList.add("menu__image");
-        img.src = this.item.img;
+        img.src = this.img;
 
         let div = document.createElement("div");
         div.classList.add("menu__label");
 
         let pName = document.createElement("p");
         pName.classList.add("name");
-        pName.appendChild(document.createTextNode(this.item.name));
+        pName.appendChild(document.createTextNode(this.name));
 
         let pPrice = document.createElement("p");
         pPrice.classList.add("label__price");
-        pPrice.appendChild(document.createTextNode(this.item.price.getString()));
+        pPrice.appendChild(document.createTextNode(this.price.getString()));
 
         div.appendChild(pName);
         div.appendChild(pPrice);
@@ -135,11 +131,11 @@ class FoodMenuItem {
 
         button.addEventListener("click", () => {
             const h = document.createElement("h1");
-            h.appendChild(document.createTextNode(this.item.name));
+            h.appendChild(document.createTextNode(this.name));
             dialogContent.replaceChildren(h);
             const s = document.createElement("section");
             s.classList.add("dialog__section", "dialog__section--columns");
-            s.append(img.cloneNode(), document.createElement("p").appendChild(document.createTextNode(this.item.description)));
+            s.append(img.cloneNode(), document.createElement("p").appendChild(document.createTextNode(this.description)));
 
             dialogContent.appendChild(s);
 
@@ -163,13 +159,15 @@ class FoodMenuItem {
             addToCartButton.addEventListener("click", () => {
                 let quantity = Number(quatitiyInput.value);
 
+                this.quantity += quantity;
+                this.update();
+                
                 for (let index = 0; index < quantity; index++) {
-                    cart.addItem(new FoodCartItem(this.item));
+                    cart.addItem(this);
                 }
-
                 cart.displayCart();
 
-                this.amount += quantity;
+
                 dialog.close();
             });
 
@@ -182,23 +180,20 @@ class FoodMenuItem {
 
         });
 
-        element2.appendChild(img);
-        element2.appendChild(div);
-        this.element.appendChild(button);
+        info.appendChild(img);
+        info.appendChild(div);
+        element.appendChild(button);
 
-        parent.appendChild(this.element);
-        FoodMenuItem.collection.push(this);
-
+        return element;
     }
 
-    set amount(value) {
-        this._amount = value;
-        console.log(value);
-        this.amountIcon.textContent = value;
-        this.amountIcon.hidden = value == 0 ? true : false;
-    }
-    get amount() {
-        return this._amount;
+    update() {
+        this.#amountIcon.replaceChildren(this.quantity);
+        if (this.quantity > 0) {
+            this.#amountIcon.hidden = false;
+        } else {
+            this.#amountIcon.hidden = true;
+        }
     }
 }
 
@@ -227,13 +222,6 @@ class Meal extends Food {
     constructor(item) {
         super(item);
         this.category = "Meals";
-    }
-}
-
-class FoodCartItem {
-
-    constructor(item) {
-        this.item = item;
     }
 }
 

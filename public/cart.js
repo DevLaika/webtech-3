@@ -35,12 +35,11 @@ class Cart {
         this.element.appendChild(orderButton);
     }
     addItem(item) {
-        if (this.items.some(i => i.name === item.item.name)) {
-            this.items.find(i => i.name === item.item.name).quantity++;
+        if (this.items.some(i => i.name === item.name)) {
+            this.items.find(i => i.name === item.name).quantity++;
         } else {
             this.items.push({
-                ...item.item,
-                quantity: 1
+                ...item
             });
         }
         this.element.scrollIntoView();
@@ -83,37 +82,41 @@ class Cart {
             quantity.addEventListener("input", (e) => {
                 if (!Number.isNaN(e.target.value)) {
                     i.quantity = e.target.value;
-                    this.showItemsInCart();
-                    FoodMenuItem.collection.forEach(element => {
-                        if (element.item.name === i.name) {
+                    Food.collection.forEach(element => {
+                        if (element.id === i.id) {
                             console.log(element)
-                            element.amount = i.quantity;
+                            element.quantity = i.quantity;
+                            element.update();
                         }
                     });
+                    if (i.quantity <= 0) {
+                        this.items = this.items.filter(i2 => i2.name !== i.name);
+                    }
+                    this.showItemsInCart();
                 }
             });
             minus.addEventListener("click", () => {
-                if (i.quantity > 1) {
-                    i.quantity--;
-                } else {
-                    this.items = this.items.filter(i2 => i2.name !== i.name);
-                }
-
-                this.showItemsInCart();
-                FoodMenuItem.collection.forEach(element => {
-                    if (element.item.name === i.name) {
+                i.quantity--;
+                Food.collection.forEach(element => {
+                    if (element.id == i.id) {
                         console.log(element)
-                        element.amount = i.quantity;
+                        element.quantity = i.quantity;
+                        element.update();
                     }
                 });
+                if (i.quantity <= 0) {
+                    this.items = this.items.filter(i2 => i2.name !== i.name);
+                }
+                this.showItemsInCart();
             });
             plus.addEventListener("click", () => {
                 i.quantity++;
                 this.showItemsInCart();
-                FoodMenuItem.collection.forEach(element => {
-                    if (element.item.name === i.name) {
+                Food.collection.forEach(element => {
+                    if (element.id === i.id) {
                         console.log(element)
-                        element.amount = i.quantity;
+                        element.quantity = i.quantity;
+                        element.update()
                     }
                 });
             });
@@ -141,8 +144,8 @@ class Cart {
         r.appendChild(document.createElement("th")).appendChild(document.createTextNode("€"+this.getTotal()));
         // for (let i in this.items) {
         //     let item = this.items[i];
-        //     let label = item.quantity + "x "+item.item.name+": "+item.item.price;
-        //     ul.appendChild(document.createElement("li")).appendChild(document.createTextNode(item.item.name+" ("+item.quantity+")"));
+        //     let label = item.quantity + "x "+item.name+": "+item.price;
+        //     ul.appendChild(document.createElement("li")).appendChild(document.createTextNode(item.name+" ("+item.quantity+")"));
         // }
     }
     checkOutOrder() {
@@ -171,6 +174,7 @@ class Cart {
             input.placeholder = upperName;
             input.name = detailName;
             input.type = "text";
+            input.required = true;
             addressFieldset.append(label, input, document.createElement("br"))
         }
         
