@@ -37,6 +37,7 @@ body {
 h1 {
     font-family: Raleway, sans-serif;
     font-size: 2em;
+    color: var(--patty);
 }
 
 h2, h3, h4, h5, h6 {
@@ -162,11 +163,9 @@ footer a {
     font-family: Flame;
     padding-right: 30px;
 }
-
 .login__logo{
     float: right;
 }
-
 footer {
     font-size: 12px;
 }
@@ -275,6 +274,13 @@ textarea {
     row-gap: 30px;
     align-items: flex-start;
 }
+.grid__container1 {
+    padding: 55px;
+    display: grid;
+    row-gap: 35px;
+    justify-content: center;
+    align-items: flex-start;
+}
 
 .grid__item {
     border-radius: 15px;
@@ -305,6 +311,15 @@ textarea {
 
 .grid__item--green {
     background-color: var(--slaw);
+}
+
+.grid__item--bun{
+    background-color: var(--bun);
+    padding: 0 15px;
+}
+
+.grid__item--bun:hover{
+    background-color: var(--cheese)
 }
 
 .grid__image {
