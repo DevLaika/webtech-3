@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 /*@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,100&family=Raleway:ital,wght@1,800&display=swap');*/
 @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap');
+@import url('https://use.fontawesome.com/releases/v5.7.1/css/all.css');
 
 @font-face {
     font-family: 'Raleway';
@@ -160,6 +161,10 @@ footer a {
 .header__logo {
     font-family: Flame;
     padding-right: 30px;
+}
+
+.login__logo{
+    float: right;
 }
 
 footer {
