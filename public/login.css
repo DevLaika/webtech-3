@@ -75,13 +75,13 @@ input[type=submit]:hover{
 }
 .login{
 	height: 460px;
-	background: #eee;
+	background: #432818;
 	border-radius: 60% / 10%;
 	transform: translateY(-180px);
 	transition: .8s ease-in-out;
 }
 .login label{
-	color: #432818;
+	color: white;
 	transform: scale(.6);
 }
 
