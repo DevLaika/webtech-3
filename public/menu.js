@@ -135,7 +135,10 @@ class Food {
             dialogContent.replaceChildren(h);
             const s = document.createElement("section");
             s.classList.add("dialog__section", "dialog__section--columns");
-            s.append(img.cloneNode(), document.createElement("p").appendChild(document.createTextNode(this.description)));
+
+            const descSection = document.createElement("div");
+            descSection.append(document.createElement("p").appendChild(document.createTextNode(this.description)),document.createElement("p").appendChild(document.createTextNode(this.price.getString())));
+            s.append(img.cloneNode(), descSection);
 
             dialogContent.appendChild(s);
 
