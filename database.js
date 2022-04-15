@@ -19,7 +19,7 @@ db.serialize(() => {
     .run(`--sql
         CREATE TABLE if NOT EXISTS users (
             id TEXT PRIMARY KEY,
-            email TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
             name TEXT NOT NULL,
             password TEXT NOT NULL,
             address_id INTEGER DEFAULT NULL,
