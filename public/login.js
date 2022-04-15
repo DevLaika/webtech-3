@@ -1,5 +1,5 @@
 const api = axios.create({
-    baseURL: 'http://localhost:8022/api/'
+    baseURL: 'http://webtech.science.uu.nl/group22/:8022/api/'
 });
 
 signupform.addEventListener("submit", (event) => {
